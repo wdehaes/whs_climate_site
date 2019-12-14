@@ -1,0 +1,23 @@
+{
+  "name": "whs_climate_site",
+  "version": "1.0.0",
+  "description": "Willem Dehaes final project FOCJ",
+  "author": "Willem Dehaes",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@carto/carto-vl": "^1.4.2",
+    "@carto/mapbox-gl": "^0.48.0-carto1",
+    "@nuxtjs/bulma": "^1.2.1",
+    "ks-vue-scrollmagic": "^1.0.2",
+    "mapbox-gl": "^1.6.0",
+    "nuxt": "^2.0.0",
+    "vue-scrollmagic": "^1.2.0"
+  },
+  "devDependencies": {}
+}
