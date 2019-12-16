@@ -7,7 +7,6 @@
 
 <script>
 import carto from "@carto/carto-vl";
-// import * as carto from '@carto/carto-vl'
 import mapboxgl from "@carto/mapbox-gl";
 import "@carto/mapbox-gl/dist/mapbox-gl.css";
 const basemaps = {
@@ -17,10 +16,17 @@ const basemaps = {
     "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
 };
 const datasets = {
-  whs: "whs_risk"
+  whs: "whs_risk",
+  filter: "filtered_whs"
 };
 export default {
   name: "Map",
+  data() {
+    return {
+      display_map: {},
+      active_layer: {}
+    }
+  },
   props: {
     basemap: {
       default: "positron",
@@ -32,11 +38,27 @@ export default {
     }
   },
   mounted: function() {
-    const map = this.createMap();
-    const layer = this.createLayer();
-    layer.addTo(map);
+    this.display_map = this.createMap();
+    // this.active_layer = this.createLayer("blue");
+    // this.active_layer.addTo(this.display_map);
+    this.switchLayer();
+  },
+  watch: {
+    dataset: function(oldVal, newVal) {
+      // this.active_layer = this.createLayer("blue");
+      // this.active_layer.addTo(this.display_map);
+      this.switchLayer();
+    }
   },
   methods: {
+    switchLayer: function() {
+      const new_layer = this.createLayer("blue");
+      if(Object.keys(this.active_layer).length) {
+        this.active_layer.remove();
+      }
+      this.active_layer = new_layer;
+      this.active_layer.addTo(this.display_map);
+    },
     createMap: function() {
       return new mapboxgl.Map({
         container: "map",
@@ -47,7 +69,7 @@ export default {
         scrollZoom: false
       });
     },
-    createLayer: function() {
+    createLayer: function(color) {
       const source = new carto.source.Dataset(datasets[this.dataset], {
         user: "wdehaes",
         apiKey: "56cde5e603439c447a4d723e6ae3346c36796237"
@@ -70,5 +92,6 @@ export default {
 #map {
   height: 100vh;
   width: 100%;
+  margin-bottom: 1rem;
 }
 </style>

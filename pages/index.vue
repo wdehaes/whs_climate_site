@@ -25,8 +25,35 @@
         </div>
       </div>
     </div>
-    <div class="columns is-centered">
-      <Map />
+    <!-- <div class="mapWrapper">
+      <Map v-bind:dataset="dataset"></Map>
+    </div> -->
+    <div class="explainer-wrapper container full-page-wrapper">
+      <div class="columns is-centered">
+        <div class="column is-5">
+          <h3>Measuring risk</h3>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <h4>Flooding</h4>
+          <p>Climate change -> Sea level rise -> storm floods worsen</p>
+          <span>Risk index </span><span>1 to 10</span>
+          <div class="columns">
+            <div class="column">Area</div>
+            
+            <div class="column"></div>
+          </div>
+        </div>
+        <div class="column">
+          <h4>Erosion</h4>
+        </div>
+      </div>
+    </div>
+    <div class="cardWrapper columns is-centered is-multiline">
+      <div v-for="(monument, index) in whsAdr" :key="index" class="column is-4">
+        <Card v-bind:whs="monument"></Card>
+      </div>
     </div>
   </div>
 </template>
@@ -34,8 +61,18 @@
 <script>
 import Card from "~/components/Card.vue";
 import Map from "~/components/Map.vue";
+import * as whs from "~/assets/data/whs.js";
 
 export default {
+  data() {
+    return {
+      dataset: "filter",
+      whsAdr: whs
+    }
+  },
+  mounted() {
+    // this.$nextTick(this.pinContainerScene);
+  },
   components: {
     Card,
     Map
@@ -46,7 +83,7 @@ export default {
       const tl = new this.$gsap.TimelineMax({});
       // create scene and set its params
       this.scene = new this.$scrollmagic.Scene({
-        triggerElement: ".pinContainer",
+        triggerElement: ".mapWrapper",
         triggerHook: "onLeave",
         duration: `${2 * 200}%` // each panel animation will last 200% of the screen's height
       })
@@ -56,8 +93,9 @@ export default {
       // Add scene to ScrollMagic controller by emiting an 'addScene' event on vm.$ksvuescr (which is our global event bus)
       this.$ksvuescr.$emit("addScene", "pinContainerScene", this.scene);
 
-      // Show the about section (initially hidden to prevent it from flashing)
-      // this.showAbout();
+    },
+    filterDataset() {
+      this.dataset = 'filter';
     }
   },
   destroyed() {
