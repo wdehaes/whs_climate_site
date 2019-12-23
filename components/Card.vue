@@ -9,6 +9,9 @@
     <div class="content">
       <h4>{{name}}</h4>
       <p>flood index 2020: {{flood_20}}</p>
+      <p>flood index 2100: {{flood_100}}</p>
+      <p>erosion index 2020: {{erosion_20}}</p>
+      <p>erosion index 2100: {{erosion_100}}</p>
     </div>
   </div>
 </div>
@@ -24,7 +27,16 @@ export default {
       return this.whs.name_en;
     },
     flood_20() {
-      return this.whs.column_2020_rcp4_5_flood;
+      return this.whs.column_2020_rcp8_5_flood;
+    },
+    flood_100() {
+      return this.whs.column_2100_rcp8_5_flood;
+    },
+    erosion_20() {
+      return this.whs.column_2020_rcp8_5_erosion;
+    },
+    erosion_100() {
+      return this.whs.column_2100_rcp8_5_erosion;
     },
     url() {
       const siteId = String(this.whs.id_no);
