@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <svg class="bell"></svg>
+  <div class="svg-container">
+    <svg class="bell" v-bind:id="svgId"></svg>
   </div>
 </template>
 
@@ -8,12 +8,24 @@
 import * as d3 from "d3";
 export default {
   props: {
-    whsData: Array
+    whsData: Array,
+    densityFieldOne: String,
+    densityFieldTwo: String,
+    svgId: String
+  },
+  data() {
+    return {
+      density1: {},
+      density2: {}
+    }
   },
   mounted: function() {
     this.renderChart();
   },
   methods: {
+    findDensityValue(value) {
+
+    },
     getValueArray(field) {
       return this.whsData.map(
       (element) => element[field]
@@ -41,13 +53,16 @@ export default {
       // set the dimensions and margins of the graph
       var margin = { top: 30, right: 30, bottom: 30, left: 50 },
         width = 600 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 300 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
       var svg = d3
-        .select("svg.bell")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .select("#" + this.svgId)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 600 300")
+        .classed("svg-content", true)
+        // .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -71,14 +86,16 @@ export default {
           svg.append("g").call(d3.axisLeft(y));
 
           // Compute kernel density estimation
-          var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(3), x.ticks(40));
+          var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(2), x.ticks(40));
           var density1 = kde(
-            this.getValueArray('column_2020_rcp4_5_flood')
+            this.getValueArray(this.densityFieldOne)
           );
           var density2 = kde(
-            this.getValueArray('column_2100_high_end_flood')
+            this.getValueArray(this.densityFieldTwo)
           );
 
+          this.density1 = density1;
+          this.density2 = density2;
           // Plot the area
           svg
             .append("path")
@@ -127,31 +144,40 @@ export default {
                 })
             );
 
+      svg.append('g')
+        .selectAll("dot")
+        .data(this.whsData)
+        .enter()
+        .append("circle")
+          .attr("cx", function (d) { return x(d[this.densityFieldOne]); } )
+          .attr("cy", function (d) { return y(d); } )
+          .attr("r", 1.5)
+          .style("fill", "#69b3a2")
 
       // Handmade legend
       svg
         .append("circle")
-        .attr("cx", 300)
-        .attr("cy", 30)
+        .attr("cx", 460)
+        .attr("cy", 10)
         .attr("r", 6)
         .style("fill", "#69b3a2");
       svg
         .append("circle")
-        .attr("cx", 300)
-        .attr("cy", 60)
+        .attr("cx", 460)
+        .attr("cy", 30)
         .attr("r", 6)
         .style("fill", "#404080");
       svg
         .append("text")
-        .attr("x", 320)
-        .attr("y", 30)
+        .attr("x", 480)
+        .attr("y", 10)
         .text("2020")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
       svg
         .append("text")
-        .attr("x", 320)
-        .attr("y", 60)
+        .attr("x", 480)
+        .attr("y", 30)
         .text("2100")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
@@ -162,4 +188,18 @@ export default {
 </script>
 
 <style>
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 55%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 </style>

@@ -113,7 +113,7 @@ export default {
       // node.append("circle").attr("r", 10);
       node.append('path')
       .attr('d', function(d) {
-        // var x = 100, y = 100;
+        // https://groups.google.com/forum/#!topic/d3-js/kHONjIWjAA0
         return 'M ' + 0 +' '+ 5 + ' l 8 -17 l -16 0 z';
       });
 

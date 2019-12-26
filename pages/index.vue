@@ -99,12 +99,13 @@
         </div>
       </div>
       <div class="columns is-centered">
-        <div class="column">
+        <div class="column is-6">
           <p class="text">The graphs below show the distribution of the flood risk and erosion risk in 2020 and 2100. Each dot represents a site. Click on a dot to see more details about a site.</p>
-          <Bell v-bind:whsData='whsAll'></Bell>
+          <Bell v-bind:whsData='whsAll' density-field-one='column_2020_rcp4_5_flood' density-field-two="column_2100_high_end_flood" svg-id='flood'></Bell>
+          <Bell v-bind:whsData='whsAll' density-field-one='column_2020_rcp4_5_erosion' density-field-two="column_2100_high_end_erosion" svg-id='erosion'></Bell>
         </div>
-        <div class="column">
-
+        <div class="column is-6">
+          
         </div>
       </div>
       <!-- <Hist v-bind:whsData='whsAll'></Hist> -->
@@ -133,6 +134,8 @@ import Map from "~/components/Map.vue";
 import Slider from "~/components/Slider.vue";
 import * as whs from "~/assets/data/whs.js";
 import * as whs_full from "~/assets/data/whs_full.js";
+import * as erosionData from "~/assets/data/erosion.js"
+import * as floodData from "~/assets/data/flood.js";
 
 export default {
   data() {
@@ -141,7 +144,8 @@ export default {
       dataset2: "filter",
       whsAdr: whs,
       whsAll: whs_full,
-      flood: require("~/assets/img/flood.png"),
+      flood: floodData,
+      erosion: erosionData,
       papers: [
         { year: 2018, value: 60 },
         { year: 2017, value: 53 },
