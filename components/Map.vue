@@ -72,7 +72,7 @@ export default {
     createLayer: function(color) {
       const source = new carto.source.Dataset(datasets[this.dataset], {
         user: "wdehaes",
-        apiKey: "56cde5e603439c447a4d723e6ae3346c36796237"
+        apiKey: "1ebb9a7f3347fe17d8a054ab1b9f4cc04ae6244c"
       });
       const viz = new carto.Viz(
         `

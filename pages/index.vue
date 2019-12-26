@@ -79,13 +79,34 @@
         <div class="column">
           <h4 class="title is-6 has-text-centered">Measuring flood damage</h4>
           <p class="text">Reimann measured the effect of a strorm flood that occurs once in a hundred years (a small fraction of their history of many of these monuments). Using storm prediction data and elevation levels across sites, she calculated how much of a site would be underwater if such a storm flood were to happen, and how deep the water would be.</p>
-          <Slider></Slider>
+
+          <!-- <Slider></Slider> -->
           <h4 class="title is-6 has-text-centered">Measuring erosion</h4>
+          <p class="text">While floodings are sudden events, erosion chips away at coastal historical sites at a slow, constant pace. The closer a monument is to the coast, the more brittle the soil and the higher the waves, the more it is at risk of erosion. Finally, each tides leaves sediment on the coast, which </p>
+          <p class="text">Below are the scales Reimann used to calculate the index for each site.</p>
+          <figure class="image">
+            <img src="https://media.springernature.com/lw600/springer-static/image/art%3A10.1038%2Fs41467-018-06645-9/MediaObjects/41467_2018_6645_Figa_HTML.png" alt="">
+          </figure>
         </div>
       </div>
     </div>
     <div class="container full-page-wrapper">
-      <Bell v-bind:whsData='whsAll'></Bell>
+      <div class="columns is-centered">
+        <div class="column is-5">
+          <div class="has-text-centered">
+            <h3 class="title is-4">The Results</h3>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column">
+          <p class="text">The graphs below show the distribution of the flood risk and erosion risk in 2020 and 2100. Each dot represents a site. Click on a dot to see more details about a site.</p>
+          <Bell v-bind:whsData='whsAll'></Bell>
+        </div>
+        <div class="column">
+
+        </div>
+      </div>
       <!-- <Hist v-bind:whsData='whsAll'></Hist> -->
     </div>
     <div class="container cardWrapper">
