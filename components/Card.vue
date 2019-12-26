@@ -8,10 +8,26 @@
   <div class="card-content">
     <div class="content">
       <h4>{{name}}</h4>
-      <p>flood index 2020: {{flood_20}}</p>
-      <p>flood index 2100: {{flood_100}}</p>
-      <p>erosion index 2020: {{erosion_20}}</p>
-      <p>erosion index 2100: {{erosion_100}}</p>
+      <div class="columns">
+        <div class="column">
+          <p class="heading">2020</p>
+          <p class="text">Flood index: {{flood_20}}</p>
+          <p class="text has-text-right">height: 2ft</p>
+          <p class="text has-text-right"> 40 %under water</p>
+          <p class="text">Erosion index: {{erosion_20}}</p>
+          <p class="text has-text-right">2000ft from coast</p>
+          <p class="text has-text-right">material</p>
+        </div>
+        <div class="column">
+          <p class="heading">2100</p>
+          <p class="text">Flood index: {{flood_100}}</p>
+          <p class="text has-text-right">height: 2ft</p>
+          <p class="text has-text-right"> 40 %under water</p>
+          <p class="text">Erosion index: {{erosion_100}}</p>
+          <p class="text has-text-right">2000ft from coast</p>
+          <p class="text has-text-right">material</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

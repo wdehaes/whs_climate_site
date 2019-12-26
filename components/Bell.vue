@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg></svg>
+    <svg class="bell"></svg>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
 
       // append the svg object to the body of the page
       var svg = d3
-        .select("svg")
+        .select("svg.bell")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -56,7 +56,7 @@ export default {
           // add the x Axis
           var x = d3
             .scaleLinear()
-            .domain([-1, 12])
+            .domain([0, 10])
             .range([0, width]);
           svg
             .append("g")
@@ -92,12 +92,13 @@ export default {
             .attr(
               "d",
               d3
-                .line()
+                .area()
                 .curve(d3.curveBasis)
                 .x(function(d) {
                   return x(d[0]);
                 })
-                .y(function(d) {
+                .y0(height)
+                .y1(function(d) {
                   return y(d[1]);
                 })
             );
@@ -115,12 +116,13 @@ export default {
             .attr(
               "d",
               d3
-                .line()
+                .area()
                 .curve(d3.curveBasis)
                 .x(function(d) {
                   return x(d[0]);
                 })
-                .y(function(d) {
+                .y0(height)
+                .y1(function(d) {
                   return y(d[1]);
                 })
             );
@@ -143,14 +145,14 @@ export default {
         .append("text")
         .attr("x", 320)
         .attr("y", 30)
-        .text("variable A")
+        .text("2020")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
       svg
         .append("text")
         .attr("x", 320)
         .attr("y", 60)
-        .text("variable B")
+        .text("2100")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
     }
