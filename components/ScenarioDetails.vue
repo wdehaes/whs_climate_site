@@ -51,17 +51,7 @@ export default {
 </script>
 
 <style scoped>
-.scenario, .scenario-details {
-  display: inline-block;
-}
-
-.scenario-name {
-  display: inline-block;
-  height: 40px;
-}
-
-.scenario-details {
-  height: 40px;
-  width: 80%;
+.scenario {
+  width: 100%;
 }
 </style>

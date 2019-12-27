@@ -120,7 +120,7 @@
           ></Bell>
         </div>
         <div class="column is-6">
-          <bulma-accordion>
+          <bulma-accordion initial-open-item="1">
             <bulma-accordion-item>
               <h4 slot="title">Description</h4>
               <div slot="content">
@@ -132,21 +132,14 @@
               </div>
 
             </bulma-accordion-item>
-            <!-- <div class="select">
-            <select v-model="activeScenario">
-              <option
-                v-for="scenario in scenarios"
-                :key="scenario.field"
-                v-bind:id="scenario.field"
-                v-bind:value="scenario.field"
-              >
-                <ScenarioDetails v-bind="scenario"></ScenarioDetails>
-              </option>
-            </select>
-          </div> -->
             <bulma-accordion-item>
               <h4 slot="title">Scenarios</h4>
               <div class="scenario-selection" slot="content">
+                <div class="columns">
+                  <div class="column">Name</div>
+                  <div class="column">T</div>
+                  <div class="column"></div>
+                </div>
                 <div
                   v-for="scenario in scenarios"
                   :key="scenario.field"
