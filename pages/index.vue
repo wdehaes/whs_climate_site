@@ -82,33 +82,106 @@
 
           <!-- <Slider></Slider> -->
           <h4 class="title is-6 has-text-centered">Measuring erosion</h4>
-          <p class="text">While floodings are sudden events, erosion chips away at coastal historical sites at a slow, constant pace. The closer a monument is to the coast, the more brittle the soil and the higher the waves, the more it is at risk of erosion. Finally, each tides leaves sediment on the coast, which </p>
+          <p class="text">While floodings are sudden events, erosion chips away at coastal historical sites at a slow, constant pace. The closer a monument is to the coast, the more brittle the soil and the higher the waves, the more it is at risk of erosion. Finally, each tide leaves sediment on the coast, which counteracts erosion (i.e. more sediment disposed lowers the risk of erosion).</p>
           <p class="text">Below are the scales Reimann used to calculate the index for each site.</p>
-          <figure class="image">
-            <img src="https://media.springernature.com/lw600/springer-static/image/art%3A10.1038%2Fs41467-018-06645-9/MediaObjects/41467_2018_6645_Figa_HTML.png" alt="">
-          </figure>
+          <div class="columns">
+            <div class="column is-10">
+
+              <figure class="image">
+                <img
+                  src="https://media.springernature.com/lw600/springer-static/image/art%3A10.1038%2Fs41467-018-06645-9/MediaObjects/41467_2018_6645_Figa_HTML.png"
+                  alt=""
+                >
+              </figure>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="container full-page-wrapper">
       <div class="columns is-centered">
         <div class="column is-5">
-          <div class="has-text-centered">
-            <h3 class="title is-4">The Results</h3>
-          </div>
+          <h3 class="title is-4 has-text-centered">The Results - High Level</h3>
         </div>
       </div>
       <div class="columns is-centered">
         <div class="column is-6">
-          <p class="text">The graphs below show the distribution of the flood risk and erosion risk in 2020 and 2100. Each dot represents a site. Click on a dot to see more details about a site.</p>
-          <Bell v-bind:whsData='whsAll' density-field-one='column_2020_rcp4_5_flood' density-field-two="column_2100_high_end_flood" svg-id='flood'></Bell>
-          <Bell v-bind:whsData='whsAll' density-field-one='column_2020_rcp4_5_erosion' density-field-two="column_2100_high_end_erosion" svg-id='erosion'></Bell>
+          <Bell
+            v-bind:whsData='whsAll'
+            density-field-one='column_2020_rcp4_5_flood'
+            v-bind:density-field-two="activeScenarioFlood"
+            svg-id='flood'
+          ></Bell>
+          <Bell
+            v-bind:whsData='whsAll'
+            density-field-one='column_2020_rcp4_5_erosion'
+            v-bind:density-field-two="activeScenarioErosion"
+            svg-id='erosion'
+          ></Bell>
         </div>
         <div class="column is-6">
-          
+          <bulma-accordion>
+            <bulma-accordion-item>
+              <h4 slot="title">Description</h4>
+              <div slot="content">
+              <p class="text">These graphs show the distribution of the flood risk and erosion risk in 2020 and the prediction in 2100. The future risks are based on predictions made by the United Nations' Intergovernmental Panel on Climate Change (IPCC). These predictions are devided into four pathways based on the amount of greenhouse gases humans will emit in the years and decades to come. Scenarios with higher emissions and more extreme temperature rises will lead to higher sea levels, and as a result, to higher risks of flood and erosion. In addition, each scenario represents a range of potential sea level rises. While she calculated the risks under all four scenarios, Reimann uses for the maps and graphs in her work is the high-end estimate under the most extreme of the four pathways, called RCP8.5.</p>
+              <p class="text">Reimann pointed out thet the IPCC scenarios might underestimate the sea level rise because they do not sufficiently take account melting land ice. More importantly, she decided to illustrate the more extreme scenario because data is only available until 2100, and she wanted to illustrate what could happen in the 22nd century as well. In other words, if in her calculations a site reaches a risk factor 10 in 2100, it might reach it a few decades later, but it will reach that extreme risk, and a few decades are insignificant in the history of many of these heritage sites.</p>
+              <p class="text">
+                To give an idea of the predicted risks under the different scenarios, you can switch scenarios and the graphs will show the risk distribution in 2100 under each scenario.
+              </p>
+              </div>
+
+            </bulma-accordion-item>
+            <!-- <div class="select">
+            <select v-model="activeScenario">
+              <option
+                v-for="scenario in scenarios"
+                :key="scenario.field"
+                v-bind:id="scenario.field"
+                v-bind:value="scenario.field"
+              >
+                <ScenarioDetails v-bind="scenario"></ScenarioDetails>
+              </option>
+            </select>
+          </div> -->
+            <bulma-accordion-item>
+              <h4 slot="title">Scenarios</h4>
+              <div class="scenario-selection" slot="content">
+                <div
+                  v-for="scenario in scenarios"
+                  :key="scenario.field"
+                  class="columns"
+                >
+                  <div class="column">
+
+                  <label class="radio">
+                    <input
+                      type="radio"
+                      v-bind:id="scenario.field"
+                      v-bind:value="scenario.field"
+                      v-model="activeScenario"
+                    >
+                    {{scenario.name}}
+                    </label>
+                  </div>
+                  <div class="column">
+                    <ScenarioDetails v-bind="scenario"></ScenarioDetails>
+                  </div>
+
+                </div>
+              </div>
+            </bulma-accordion-item>
+          </bulma-accordion>
         </div>
       </div>
-      <!-- <Hist v-bind:whsData='whsAll'></Hist> -->
+    </div>
+
+    <div class="container full-page-wrapper">
+      <div class="columns is-centered">
+        <div class="column is-5">
+          <h3 class="title is-4 has-text-centered">The Results - Details</h3>
+        </div>
+      </div>
     </div>
     <div class="container cardWrapper">
       <div class="columns is-centered is-multiline">
@@ -130,13 +203,14 @@ import Bell from "~/components/Bell.vue";
 import Hist from "~/components/Hist.vue";
 import Graph from "~/components/Graph.vue";
 import Tree from "~/components/Tree.vue";
+import ScenarioDetails from "~/components/ScenarioDetails.vue";
 import Map from "~/components/Map.vue";
 import Slider from "~/components/Slider.vue";
 import * as whs from "~/assets/data/whs.js";
 import * as whs_full from "~/assets/data/whs_full.js";
-import * as erosionData from "~/assets/data/erosion.js"
+import * as erosionData from "~/assets/data/erosion.js";
 import * as floodData from "~/assets/data/flood.js";
-
+import { BulmaAccordion, BulmaAccordionItem } from "vue-bulma-accordion";
 export default {
   data() {
     return {
@@ -146,6 +220,49 @@ export default {
       whsAll: whs_full,
       flood: floodData,
       erosion: erosionData,
+      activeScenario: "column_2100_high_end",
+      scenarios: [
+        {
+          name: "RCP2.6",
+          tMean: 1.0,
+          tLow: 0.3,
+          tHigh: 1.7,
+          sMean: 0.4,
+          sLow: 0.26,
+          sHigh: 0.55,
+          field: "column_2100_rcp2_6"
+        },
+        {
+          name: "RCP4.5",
+          tMean: 1.8,
+          tLow: 1.1,
+          tHigh: 2.6,
+          sMean: 0.47,
+          sLow: 0.32,
+          sHigh: 0.63,
+          field: "column_2100_rcp4_5"
+        },
+        {
+          name: "RCP8.5",
+          tMean: 3.7,
+          tLow: 2.6,
+          tHigh: 4.8,
+          sMean: 0.63,
+          sLow: 0.45,
+          sHigh: 0.82,
+          field: "column_2100_rcp8_5"
+        },
+        {
+          name: "High End",
+          tMean: 3.7,
+          tLow: 2.6,
+          tHigh: 4.8,
+          sMean: 0.63,
+          sLow: 0.45,
+          sHigh: 0.82,
+          field: "column_2100_high_end"
+        }
+      ],
       papers: [
         { year: 2018, value: 60 },
         { year: 2017, value: 53 },
@@ -170,14 +287,30 @@ export default {
   mounted() {
     // this.$nextTick(this.pinContainerScene);
   },
+  computed: {
+    activeScenarioFlood: function() {
+      return this.activeScenario + "_flood";
+    },
+    activeScenarioErosion: function() {
+      return this.activeScenario + "_erosion";
+    }
+    // activeScenarioData: function() {
+    //   return this.scenarios.find(
+    //     element => element.field === this.activeScenario
+    //   );
+    // }
+  },
   components: {
     Card,
     Bell,
     Hist,
+    ScenarioDetails,
     Graph,
     Tree,
     Map,
-    Slider
+    Slider,
+    BulmaAccordion,
+    BulmaAccordionItem
   },
   methods: {
     pinContainerScene() {
@@ -232,5 +365,4 @@ export default {
   top: 8%;
   width: 30%;
 }
-
 </style>

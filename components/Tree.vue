@@ -59,9 +59,11 @@ export default {
       // moves the 'group' element to the top left margin
       var svg = d3
           .select("svg.tree")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom),
-        g = svg
+          // .attr("width", width + margin.left + margin.right)
+          // .attr("height", height + margin.top + margin.bottom),
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 600 500")
+        var g = svg
           .append("g")
           .attr(
             "transform",
@@ -141,7 +143,10 @@ export default {
 }
 
 .node text {
-  font: 12px sans-serif;
+  font-size: .8em;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .node--internal text {

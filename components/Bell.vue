@@ -16,16 +16,19 @@ export default {
   data() {
     return {
       density1: {},
-      density2: {}
+      density2: {},
+      svg: {}
+    }
+  },
+  watch: {
+    densityFieldTwo: function(newValue) {
+      this.updateChart(newValue);
     }
   },
   mounted: function() {
     this.renderChart();
   },
   methods: {
-    findDensityValue(value) {
-
-    },
     getValueArray(field) {
       return this.whsData.map(
       (element) => element[field]
@@ -49,6 +52,40 @@ export default {
         return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
       };
     },
+    updateChart(val) {
+      var x = d3
+        .scaleLinear()
+        .domain([0, 10])
+        .range([0, 520]);
+      var y = d3
+        .scaleLinear()
+        .range([240, 0])
+        .domain([0, 0.4]);
+
+      var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(1), x.ticks(40));
+      var density2 = kde(
+        this.getValueArray(val)
+      );
+      this.density2 = density2;
+      this.svg
+        .selectAll(".density2")
+        .datum(this.density2)
+        .transition()
+        .duration(1000)
+        .attr(
+          "d",
+          d3
+            .area()
+            .curve(d3.curveBasis)
+            .x(function(d) {
+              return x(d[0]);
+            })
+            .y0(240)
+            .y1(function(d) {
+              return y(d[1]);
+            })
+        )
+    },
     renderChart() {
       // set the dimensions and margins of the graph
       var margin = { top: 30, right: 30, bottom: 30, left: 50 },
@@ -56,7 +93,7 @@ export default {
         height = 300 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
-      var svg = d3
+      this.svg = d3
         .select("#" + this.svgId)
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 600 300")
@@ -73,7 +110,7 @@ export default {
             .scaleLinear()
             .domain([0, 10])
             .range([0, width]);
-          svg
+          this.svg
             .append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
@@ -82,11 +119,11 @@ export default {
           var y = d3
             .scaleLinear()
             .range([height, 0])
-            .domain([0, 0.20]);
-          svg.append("g").call(d3.axisLeft(y));
+            .domain([0, 0.4]);
+          this.svg.append("g").call(d3.axisLeft(y));
 
           // Compute kernel density estimation
-          var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(2), x.ticks(40));
+          var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(1), x.ticks(40));
           var density1 = kde(
             this.getValueArray(this.densityFieldOne)
           );
@@ -97,9 +134,9 @@ export default {
           this.density1 = density1;
           this.density2 = density2;
           // Plot the area
-          svg
+          this.svg
             .append("path")
-            .attr("class", "mypath")
+            .attr("class", "density1")
             .datum(density1)
             .attr("fill", "#69b3a2")
             .attr("opacity", ".6")
@@ -121,10 +158,10 @@ export default {
             );
 
           // Plot the area
-          svg
+          this.svg
             .append("path")
-            .attr("class", "mypath")
-            .datum(density2)
+            .attr("class", "density2")
+            .datum(this.density2)
             .attr("fill", "#404080")
             .attr("opacity", ".6")
             .attr("stroke", "#000")
@@ -144,37 +181,37 @@ export default {
                 })
             );
 
-      svg.append('g')
-        .selectAll("dot")
-        .data(this.whsData)
-        .enter()
-        .append("circle")
-          .attr("cx", function (d) { return x(d[this.densityFieldOne]); } )
-          .attr("cy", function (d) { return y(d); } )
-          .attr("r", 1.5)
-          .style("fill", "#69b3a2")
+      // svg.append('g')
+      //   .selectAll("dot")
+      //   .data(this.whsData)
+      //   .enter()
+      //   .append("circle")
+      //     .attr("cx", (d) => { return x(d[this.densityFieldOne]); } )
+      //     .attr("cy", function (d) { return 1; } )
+      //     .attr("r", 1.5)
+      //     .style("fill", "#69b3a2")
 
       // Handmade legend
-      svg
+      this.svg
         .append("circle")
         .attr("cx", 460)
         .attr("cy", 10)
         .attr("r", 6)
         .style("fill", "#69b3a2");
-      svg
+      this.svg
         .append("circle")
         .attr("cx", 460)
         .attr("cy", 30)
         .attr("r", 6)
         .style("fill", "#404080");
-      svg
+      this.svg
         .append("text")
         .attr("x", 480)
         .attr("y", 10)
         .text("2020")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
-      svg
+      this.svg
         .append("text")
         .attr("x", 480)
         .attr("y", 30)
