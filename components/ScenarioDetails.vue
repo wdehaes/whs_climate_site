@@ -33,18 +33,54 @@ export default {
 
       var svg = d3.select("#" + this.svgField)
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 200 40")
+        .attr("viewBox", "0 0 200 30")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       // add the x Axis
       var x = d3
         .scaleLinear()
-        .domain([0, 5])
-        .range([0, width]);
+        .domain([0, 6])
+        .range([0, 72]);
       svg
         .append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .attr("transform", "translate(0," + 5 + ")")
+        .call(d3.axisBottom(x).ticks(2).tickSize(3));
+
+      svg.append('rect')
+          .attr('x', this.tMean * 12 - 1)
+          .attr('y', -4)
+          .attr('width', 1)
+          .attr('height', 12)
+          .attr('fill', "red")
+
+      svg.append('rect')
+          .attr('x', this.tLow * 12)
+          .attr('y', 0)
+          .attr('width', 12*(this.tHigh - this.tLow))
+          .attr('height', 4)
+          .attr('fill', "#69b3a2")
+      var xT = d3
+        .scaleLinear()
+        .domain([0, 1])
+        .range([0, 72]);
+      svg
+        .append("g")
+        .attr("transform", "translate(" + 110 + "," + 5 + ")")
+        .call(d3.axisBottom(xT).ticks(2).tickSize(3));
+
+      svg.append('rect')
+          .attr('x', 110 + this.sMean * 72 - 1)
+          .attr('y', -4)
+          .attr('width', 1)
+          .attr('height', 12)
+          .attr('fill', "red")
+
+      svg.append('rect')
+          .attr('x', 110 + this.sLow * 72)
+          .attr('y', 0)
+          .attr('width', 72*(this.sHigh - this.sLow))
+          .attr('height', 4)
+          .attr('fill', "#404080")
     }
   },
 }
@@ -54,4 +90,5 @@ export default {
 .scenario {
   width: 100%;
 }
+g text { font: 8px sans-serif; }
 </style>

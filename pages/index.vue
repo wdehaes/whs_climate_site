@@ -1,6 +1,6 @@
 <template>
-  <div class="pinContainer">
-    <div class="container full-page-wrapper">
+  <div class="pinContainer" ref="pin">
+    <section class="panel panel-0"><div class="containe">
       <div class="columns is-centered">
         <div class="column is-8 has-text-centered">
           <h1 class="title is-1">
@@ -24,8 +24,9 @@
           </p>
         </div>
       </div>
-    </div>
-    <div class="container full-page-wrapper">
+      </div>
+    </section>
+    <section class="panel panel-1"><div class="container">
       <div class="columns">
         <div class="column">
           <p class="text">Number of results by publication year when searching for cultural heritage and climate change in the <span class="is-italic">Web of Science</span> online database.</p>
@@ -40,19 +41,27 @@
           <p class="text">Part of that rise can be attributed to the increased output of the research community, and both the number of papers on <span class="is-italic">climate change</span> and <span class="is-italic">cultural heritage</span> have been steadily rising, but the increase is nowhere near as pronounced. Chiara Bertolin at the Norwegian university of science and technology confirmed the trend suggested by the data, but pointed out that when looking at the absolute numbers, the impact of climate change on heritage sites is still understudied.</p>
         </div>
       </div>
-    </div>
-    <div class="container full-page-wrapper">
+      </div>
+    </section>
+    <section class="panel panel-2"><div class="container">
       <div class="columns">
         <div class="column">
           <h3 class="title is-4">A Broader Scope</h3>
           <p class="text">The list of UNESCO cultural World Heritage Sites encompasses thousands of years of human history across the globe. Factors such as location, age and construction vary wildly between sites, and can make it hard for researchers to generalize findings about vulnerability to climate change.</p>
-          <p class="text">Consequently, most research focuses on individual sites or small groups of similar sites. That singular focus allows scientists to dive deep into the site-specific factors ranging from the sensitivity of wooden stave churches in Norway to increased humidity to community needs in flood-phrone Venice. However, that narrow scope comes at a cost. As researchers from the University of Camerino in Italy pointed out in September, as research into the effects of climate change on cultural heritage remains fragmented, so do the efforts to protect it.</p>
+          <p class="text">Consequently, most research focuses on individual sites or small groups of similar sites. That singular focus allows scientists to dive deep into the site-specific factors ranging from the sensitivity to increased humidity of wooden stave churches in Norway to community needs in flood-prone Venice. However, that narrow scope comes at a cost. As researchers from the University of Camerino in Italy pointed out in September, as research into the effects of climate change on cultural heritage remains fragmented, so do the efforts to protect it.</p>
           <p class="text">Some scientists decided to take a different approach: studying the effects of global warming on hundreds of sites at the same time. One of them is Lena Reimann, a post-doctoral researcher at the university of Kiel, Germany. In a study published in <span class="is-italic">Nature Communications</span> last year, she analyzed the effects of sea level rise on 159 sites around the Mediterranean coast.</p>
         </div>
-        <div class="column"></div>
+        <div class="column">
+          <p class="text is-size-7">Sensors placed on two stave churches in Norway measure the outside conditions. Additional sensors show the conditions inside. <span class="is-italic"> Credit: <a href="https://www.ntnu.edu/symbol/start" target="_blank" rel="noopener noreferrer">NTNU Symbol project</a>
+            </span> </p>
+          <img src="https://www.ntnu.edu/documents/1279139661/0/Bilde1.jpg/c67f4700-cbe7-61f0-d5bb-a3994206e596?t=1573130023313&imagePreview=1" alt="">
+          <p class="text is-size-7">View of New Lamark, an industrial heritage site in Scotland part of a study proposing a more community-inclusive approach for assessing its vulnerability.<span class="is-italic"> Credit:<a href='https://pxhere.com/fr/photo/269222' target="_blank" rel="noopener noreferrer"> pxhere </a></span></p>
+          <img :src="lamark" alt="">
+        </div>
       </div>
-    </div>
-    <div class="full-page-wrapper map-wrapper">
+      </div>
+    </section>
+    <section class="map-wrapper panel panel-3">
       <Map v-bind:dataset="dataset"></Map>
       <div class="card map-overlay">
         <div class="card-content">
@@ -63,8 +72,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="explainer-wrapper container full-page-wrapper">
+    </section>
+    <section class="panel panel-4"><div class="container">
       <div class="columns is-centered">
         <div class="column is-5">
           <div class="has-text-centered">
@@ -97,21 +106,24 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="container full-page-wrapper">
+      </div>
+    </section>
+    <section class="panel panel-5"><div class="container">
       <div class="columns is-centered">
         <div class="column is-5">
-          <h3 class="title is-4 has-text-centered">The Results - High Level</h3>
+          <h3 class="title is-4 has-text-centered">The Results</h3>
         </div>
       </div>
       <div class="columns is-centered">
         <div class="column is-6">
+          <p class="text">Distribution of the flood risk index over all 151 historic sites.</p>
           <Bell
             v-bind:whsData='whsAll'
             density-field-one='column_2020_rcp4_5_flood'
             v-bind:density-field-two="activeScenarioFlood"
             svg-id='flood'
           ></Bell>
+          <p class="text">Distribution of the erosion risk index over all 151 historic sites.</p>
           <Bell
             v-bind:whsData='whsAll'
             density-field-one='column_2020_rcp4_5_erosion'
@@ -135,17 +147,20 @@
             <bulma-accordion-item>
               <h4 slot="title">Scenarios</h4>
               <div class="scenario-selection" slot="content">
+                <p class="text">Below are the names of the different scenarios, predicted temperature rise in &#8451; and sea level rise in meters. The horizontal bar represents the range of estimates, and the vertical line the estimate Reimann used in her research.</p>
                 <div class="columns">
-                  <div class="column">Name</div>
-                  <div class="column">T</div>
-                  <div class="column"></div>
+                  <div class="column">Scenario</div>
+                  <div class="column"><figure class="image is-48x48">
+                    <img v-bind:src="tempIcon" alt="" class="scenarioIcon"></figure></div>
+                  <div class="column"><figure class="image is-48x48">
+                    <img v-bind:src="seaIcon" alt="" class="scenarioIcon"></figure></div>
                 </div>
                 <div
                   v-for="scenario in scenarios"
                   :key="scenario.field"
                   class="columns"
                 >
-                  <div class="column">
+                  <div class="column is-4">
 
                   <label class="radio">
                     <input
@@ -157,7 +172,7 @@
                     {{scenario.name}}
                     </label>
                   </div>
-                  <div class="column">
+                  <div class="column is-8">
                     <ScenarioDetails v-bind="scenario"></ScenarioDetails>
                   </div>
 
@@ -167,16 +182,17 @@
           </bulma-accordion>
         </div>
       </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="container full-page-wrapper">
+    <!-- <div class="container full-page-wrapper">
       <div class="columns is-centered">
         <div class="column is-5">
-          <h3 class="title is-4 has-text-centered">The Results - Details</h3>
+          <h3 class="title is-4 has-text-centered">The Results</h3>
         </div>
       </div>
-    </div>
-    <div class="container cardWrapper">
+    </div> -->
+    <!-- <div class="container cardWrapper">
       <div class="columns is-centered is-multiline">
         <div
           v-for="(monument, index) in whsAdr"
@@ -186,7 +202,7 @@
           <Card v-bind:whs="monument"></Card>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -214,6 +230,7 @@ export default {
       flood: floodData,
       erosion: erosionData,
       activeScenario: "column_2100_high_end",
+      scene: {},
       scenarios: [
         {
           name: "RCP2.6",
@@ -247,10 +264,10 @@ export default {
         },
         {
           name: "High End",
-          tMean: 3.7,
+          tMean: 4.6,
           tLow: 2.6,
           tHigh: 4.8,
-          sMean: 0.63,
+          sMean: 0.78,
           sLow: 0.45,
           sHigh: 0.82,
           field: "column_2100_high_end"
@@ -277,10 +294,22 @@ export default {
       ]
     };
   },
-  mounted() {
-    // this.$nextTick(this.pinContainerScene);
+  mounted () {
+    this.$nextTick(this.pinContainerScene)
   },
   computed: {
+    tempIcon() {
+      const url = require('~/assets/img/temp.svg');
+      return url;
+    },
+    seaIcon() {
+      const url = require('~/assets/img/sea.svg');
+      return url;
+    },
+    lamark() {
+      const url = require('~/assets/img/new-lamark.jpg');
+      return url;
+    },
     activeScenarioFlood: function() {
       return this.activeScenario + "_flood";
     },
@@ -306,44 +335,62 @@ export default {
     BulmaAccordionItem
   },
   methods: {
-    pinContainerScene() {
+    pinContainerScene () {
+      const Length = 6
+
       // Create a new Timeline (equivalent to new TimelineMax())
-      const tl = new this.$gsap.TimelineMax({});
+      const tl = new this.$gsap.TimelineMax()
+      const animFrom = {y: '100%'};
+      for (var i = 1; i < Length; i++) { // For each panel in this.panels array:
+        // if (i !== 0) { // For each panel except the one whom index is 0, create the tween and add it to the tl timeline
+          tl.fromTo(`section.panel-${i}`, 1.5, animFrom, {x: '0%', y: '0%', ease: Linear.easeNone})
+        // }
+      }
+
       // create scene and set its params
       this.scene = new this.$scrollmagic.Scene({
-        triggerElement: ".mapWrapper",
-        triggerHook: "onLeave",
-        duration: `${2 * 200}%` // each panel animation will last 200% of the screen's height
+        triggerElement: '.pinContainer',
+        triggerHook: 'onLeave',
+        duration: `${Length * 100}%`
       })
-        .setPin(".pinContainer")
-        .setTween(tl);
+      .setPin('.pinContainer')
+      .setTween(tl)
 
       // Add scene to ScrollMagic controller by emiting an 'addScene' event on vm.$ksvuescr (which is our global event bus)
-      this.$ksvuescr.$emit("addScene", "pinContainerScene", this.scene);
-    },
-    filterDataset() {
-      this.dataset = "filter";
+      this.$ksvuescr.$emit('addScene', 'pinContainerScene', this.scene)
+
+      // TAAAAAAADAAAAAAAAAAAA
     }
   },
-  destroyed() {
+  destroyed () {
     // Destroy ScrollMagic when our component is removed from DOM
-    // this.$ksvuescr.$emit("destroy");
+    this.$ksvuescr.$emit('destroy')
   }
 };
 </script>
 
 <style>
-.pinContainer {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-}
-.full-page-wrapper {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
+  body {
+    margin: 0;
+  }
+  .pinContainer {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+  .panel {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+  }
 
 .map-wrapper {
   position: relative;
@@ -357,5 +404,9 @@ export default {
   left: 5%;
   top: 8%;
   width: 30%;
+}
+
+figure.image {
+  margin: 0 auto;
 }
 </style>
