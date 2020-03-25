@@ -59,7 +59,7 @@ export default {
         .range([0, 520]);
       var y = d3
         .scaleLinear()
-        .range([240, 0])
+        .range([220, 0])
         .domain([0, 0.4]);
 
       var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(1), x.ticks(40));
@@ -80,7 +80,7 @@ export default {
             .x(function(d) {
               return x(d[0]);
             })
-            .y0(240)
+            .y0(220)
             .y1(function(d) {
               return y(d[1]);
             })
@@ -90,7 +90,7 @@ export default {
       // set the dimensions and margins of the graph
       var margin = { top: 30, right: 30, bottom: 30, left: 50 },
         width = 600 - margin.left - margin.right,
-        height = 300 - margin.top - margin.bottom;
+        height = 280 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
       this.svg = d3
@@ -114,6 +114,13 @@ export default {
             .append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
+  // text label for the x axis
+          this.svg.append("text")
+              .attr("transform",
+                    "translate(" + (width/2) + " ," +
+                                  (height + margin.top + 20) + ")")
+              .style("text-anchor", "middle")
+              .text("Risk Index");
 
           // add the y Axis
           var y = d3
@@ -121,6 +128,14 @@ export default {
             .range([height, 0])
             .domain([0, 0.45]);
           this.svg.append("g").call(d3.axisLeft(y));
+          // text label for the y axis
+          this.svg.append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 0 - margin.left)
+              .attr("x",0 - (height / 2))
+              .attr("dy", "1em")
+              .style("text-anchor", "middle")
+              .text("Percentage of WHS");
 
           // Compute kernel density estimation
           var kde = this.kernelDensityEstimator(this.kernelEpanechnikov(1), x.ticks(40));
